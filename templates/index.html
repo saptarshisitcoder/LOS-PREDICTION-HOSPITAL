@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+resultpanel {
+  float: left;
+  width: 30%;
+  height: 430px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+resultpanel ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+middlepanel {
+  float: left;
+  padding: 20px;
+  width: 35%;
+  background-color: #f1f1f1;
+  height: 430px; /* only for demonstration, should be removed */
+}
+
+rightpanel {
+  float: right;
+  width: 35%;
+  height: 430px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Clear floats after the columns */
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h2>LOS PRIDICTION</h2>
+</header>
+<section>
+<resultpanel>
+    <ul>
+      <li>LOS-Prediction will be displayed below</li><br><br>
+      <li>{{ prediction_text }}</li>
+    </ul>
+</resultpanel>
+<form action="{{ url_for('predict')}}"method="post">
+<middlepanel>
+<h1>Predict Length of Stay of patient</h1>
+<!-- Main Input For Receiving Query to our ML -->
+    
+        <label for="Hospital_code">Hospital code</label>
+  <input list="Hospital_code" name="Hospital_code">
+  <datalist id="Hospital_code">
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+    <option value=5>
+    <option value=6>
+    <option value=7>
+    <option value=8>
+    <option value=9>
+    <option value=10>
+    <option value=11>
+    <option value=12>
+    <option value=13>
+    <option value=14>
+    <option value=15>
+    <option value=16>
+    <option value=18>
+    <option value=19>
+    <option value=20>
+    <option value=21>
+    <option value=22>
+    <option value=23>
+    <option value=24>
+    <option value=25>
+    <option value=26>
+    <option value=27>
+    <option value=28>
+    <option value=29>
+    <option value=30>
+    <option value=31>
+    <option value=32>
+  </datalist><br><br>
+              <label for="Hospital_type_code">Hospital type code</label>
+  <input list="Hospital_type_code" name="Hospital_type_code">
+  <datalist id="Hospital_type_code">
+    <option value=A>
+    <option value=B>
+    <option value=C>
+    <option value=D>
+    <option value=E>
+    <option value=F>
+    <option value=G>
+  </datalist><br><br>
+              <label for="City_Code_Hospital">City Code Hospital</label>
+  <input list="City_Code_Hospital" name="City_Code_Hospital">
+  <datalist id="City_Code_Hospital">
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+    <option value=5>
+    <option value=6>
+    <option value=7>
+    <option value=8>
+    <option value=9>
+    <option value=10>
+    <option value=11>
+    <option value=12>
+    <option value=13>
+  </datalist><br><br>
+              <label for="Hospital_region_code">Hospital region code</label>
+  <input list="Hospital_region_code" name="Hospital_region_code">
+  <datalist id="Hospital_region_code">
+    <option value=X>
+    <option value=Y>
+    <option value=Z>
+  </datalist><br><br>
+              <label for="Available_Extra_Rooms">Available Extra Rooms in Hospital</label>
+  <input list="Available_Extra_Rooms" name="Available_Extra_Rooms">
+  <datalist id="Available_Extra_Rooms">
+    <option value=0>
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+    <option value=5>
+    <option value=6>
+    <option value=7>
+    <option value=8>
+    <option value=9>
+    <option value=10>
+    <option value=11>
+    <option value=12>
+    <option value=13>
+    <option value=14>
+    <option value=20>
+    <option value=21>
+    <option value=24>
+  </datalist><br><br>
+              <label for="Department">Department</label>
+  <input list="Department" name="Department">
+  <datalist id="Department">
+    <option value=anesthesia>
+    <option value=gynecology>
+    <option value=radiotherapy>
+    <option value=surgery>
+    <option value=TB & Chest disease>
+  </datalist><br><br>
+              <label for="Ward_Type">Ward Type</label>
+  <input list="Ward_Type" name="Ward_Type">
+  <datalist id="Ward_Type">
+    <option value=P>
+    <option value=Q>
+    <option value=R>
+    <option value=S>
+    <option value=T>
+    <option value=U>
+  </datalist><br><br>
+</middlepanel>
+<rightpanel><br><br>
+              <label for="Ward_Facility_Code">Ward Facility Code</label>
+  <input list="Ward_Facility_Code" name="Ward_Facility_Code">
+  <datalist id="Ward_Facility_Code">
+    <option value=A>
+    <option value=B>
+    <option value=C>
+    <option value=D>
+    <option value=E>
+    <option value=F>
+  </datalist><br><br>
+              <label for="Bed_Grade">Bed Grade</label>
+  <input list="Bed_Grade" name="Bed_Grade">
+  <datalist id="Bed_Grade">
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+  </datalist><br><br>
+              <label for="City_Code_Patient">City Code Patient</label>
+  <input list="City_Code_Patient" name="City_Code_Patient">
+  <datalist id="City_Code_Patient">
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+    <option value=5>
+    <option value=6>
+    <option value=7>
+    <option value=8>
+    <option value=9>
+    <option value=10>
+    <option value=11>
+    <option value=12>
+    <option value=13>
+    <option value=14>
+    <option value=15>
+    <option value=16>
+    <option value=18>
+    <option value=19>
+    <option value=20>
+    <option value=21>
+    <option value=22>
+    <option value=23>
+    <option value=24>
+    <option value=25>
+    <option value=26>
+    <option value=27>
+    <option value=28>
+    <option value=29>
+    <option value=30>
+    <option value=31>
+    <option value=32>
+    <option value=33>
+    <option value=34>
+    <option value=35>
+    <option value=36>
+    <option value=37>
+    <option value=38>
+   </datalist><br><br>
+            <label for="Type_of_Admission">Type of Admission</label>
+  <input list="Type_of_Admission" name="Type_of_Admission">
+  <datalist id="Type_of_Admission">
+    <option value=Emergency>
+    <option value=Trauma>
+    <option value=Urgent>
+  </datalist><br><br>
+          <label for="Severity_of_Illness">Severity of Illness</label>
+  <input list="Severity_of_Illness" name="Severity_of_Illness">
+  <datalist id="Severity_of_Illness">
+    <option value=Extreme>
+    <option value=Moderate>
+    <option value=Minor>
+  </datalist><br><br>
+        <label for="Visitors_with_Patient">Visitors with Patient</label>
+  <input list="Visitors_with_Patient" name="Visitors_with_Patient">
+  <datalist id="Visitors_with_Patient">
+    <option value=1>
+    <option value=2>
+    <option value=3>
+    <option value=4>
+    <option value=5>
+    <option value=6>
+    <option value=7>
+    <option value=8>
+    <option value=9>
+    <option value=10>
+    <option value=11>
+    <option value=12>
+    <option value=13>
+    <option value=14>
+    <option value=15>
+    <option value=16>
+    <option value=18>
+    <option value=19>
+    <option value=20>
+    <option value=21>
+    <option value=22>
+    <option value=23>
+    <option value=24>
+    <option value=25>
+    <option value=30>
+    <option value=32>
+   </datalist><br><br>
+        <label for="Age">Enter Age Range:</label>
+        <input list="Age" name="Age">
+        <datalist id="Age">
+            <option value="0-10">
+            <option value="11-20">
+            <option value="21-30">
+            <option value="31-40">
+            <option value="41-50">
+            <option value="51-60">
+            <option value="61-70">
+            <option value="71-80">
+            <option value="81-90">
+            <option value="91-100">
+        </datalist><br><br>
+    	<input type="text" name="Admission_Deposit" placeholder="Admission_Deposit" required="required" />
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    
+
+   <br>
+   <br>
+   
+
+</rightpanel>
+</form>
+</section>
+<footer>
+  <p>GREAT LEARNING PROJECT - TEAM 4</p>
+</footer>
+</body>
+</html>
